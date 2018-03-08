@@ -21,3 +21,8 @@ Target accounts using this criteria:
 
 If you choose to use build tools to compile your CSS and Javascript (such as SASS of Coffescript) please include the original files as well. You may update this README file outlining the details of what tools you have used.
 This was built on PHP using abraham twiiter oauth and google client api 
+
+### How to run
+* Enter your twitter api credentials index.php
+* Get your google api credentials in client_secret.json
+* Run php index.php from the terminal or php -S localhost:8000 from your browser
