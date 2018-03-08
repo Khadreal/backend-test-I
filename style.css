@@ -1,0 +1,31 @@
+@import url('https://fonts.googleapis.com/css?family=Karma:400,700');
+/* All Reset */
+body,h1,h2,h3,h4,h5,h6,p,div,ol,li,ul,form,table{
+	margin:0; padding: 0;
+}
+a{
+	text-decoration: none;
+}
+img{
+	border:0;
+}
+header,section,aside,article,footer{
+	display: block;
+}
+/* End Reset */
+
+body{
+	background:#f6f6f6; font-family: 'Karma', serif;
+}
+.container{
+	margin: 50px auto 0px; width:500px;
+}
+table{
+	width:100%;
+}
+table thead{
+	font-weight: 700;
+}
+table tr td{
+	width:33.333%; text-align: center;
+}
