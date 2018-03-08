@@ -8,7 +8,7 @@ Applicants may use whatever language they want to achieve the outcome.
 
 ## Task
 
-Built a bot that extracts the following from people’s Twitter bio (on public/open accounts), into a Google spreadsheet:
+This bot extracts the following from people’s Twitter bio (on public/open accounts), into a Google spreadsheet:
 
 * Twitter profile name 
 * Number of followers
