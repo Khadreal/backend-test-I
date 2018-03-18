@@ -5,7 +5,7 @@ require "vendor/autoload.php";
 use Abraham\TwitterOAuth\TwitterOAuth;
 use Google\Spreadsheet\DefaultServiceRequest;
 use Google\Spreadsheet\ServiceRequestFactory;
-
+$response = new \League\CLImate\CLImate;
 
  	$aDiceValues = array();
 	$consumerKey = "5DRHOI34z4Eb2P5INeZnTn5dP";
@@ -14,13 +14,13 @@ use Google\Spreadsheet\ServiceRequestFactory;
 	$accessTokenSecret = "1UGNYBESwuTHxeLgCVU8QAqdWxLpYLLqRHO2EQZuIAPUK" ;
 
 
-	$connection =  new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+	connection =  new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
 	putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/client_secret.json');
 	$client = new Google_Client;
 	$client->useApplicationDefaultCredentials();
 	 
-	$client->setApplicationName("Something to do with my representatives");
+	$client->setApplicationName("Devcenter Tweet Bot");
 	$client->setScopes(['https://www.googleapis.com/auth/drive','https://spreadsheets.google.com/feeds']);
 	 
 	if ($client->isAccessTokenExpired()) {
@@ -31,6 +31,12 @@ use Google\Spreadsheet\ServiceRequestFactory;
 	ServiceRequestFactory::setInstance(
 	    new DefaultServiceRequest($accessToken)
 	);
+	
+
+	
+	echo "Enter the hashtag below without the # sign :\n";
+	$var = fread(STDIN, 80); // Read up to 80 characters or a newline
+	$hashtag = "%23". $var;
 
 
 	$spreadsheetService = new Google\Spreadsheet\SpreadsheetService();
@@ -47,47 +53,26 @@ use Google\Spreadsheet\ServiceRequestFactory;
 	$cellFeed->editCell(1,1, "Name");
 	$cellFeed->editCell(1,2, "Followers");
 
-	// Search for users with tweet that contains a certain hashtag
-	$data = $connection->get("users/search", ["q" => "%23Arsenal", "page" => 1, "count" => 20]);
+	$data = $connection->get("users/search", ["q" => $hashtag, "page" => 1]);
+
+	$items = array();
+
+	foreach ($data as $user)
+	{
+		
+		$listFeed->insert([
+	        'name' => $user->name,
+	        'followers'	=> $user->followers_count
+	    ]);
+		$items[] = array(
+			'Name of Profile'	=>	$user->name,
+			'Numbers of Followers' => number_format($user->followers_count, 0)
+		);	
+	} 
+	
+	$response->table($items);
 
 ?>
 
-<html>
-	<head>
-		<title>Twitter Bot</title>
-		<link rel="stylesheet" href="style.css">
-	</head>
-	<body>
-		<div class="container">
-			<table>
-				<thead>
-					<tr>
-						<td>SN</td>
-						<td>Profile Name</td>
-						<td>Number of Followers</td>
-					</tr>
-				</thead>
-				<tbody>
-					<?php 
-						foreach ($data as $user)
-						{
-							
-							$listFeed->insert([
-						        'name' => $user->name,
-						        'followers'	=> $user->followers_count
-						    ]);
-
-							echo "<tr>";
-							echo "<td>".$user->name . " </td>" ;
-							echo "<td>" .number_format($user->followers_count, 0) ."</td>" ;
-							echo "</tr>";
-							
-						} 
-					?>
-				</tbody>
-			</table>
-		</div>
-</body>
-</html>
 
 
