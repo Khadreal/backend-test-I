@@ -25,4 +25,4 @@ This was built on PHP using abraham twiiter oauth and google client api
 ### How to run
 * Enter your twitter api credentials index.php
 * Get your google api credentials in client_secret.json
-* Run php index.php from the terminal or php -S localhost:8000 from your browser
+* Run `php index.php` from the terminal
