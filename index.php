@@ -14,7 +14,7 @@ $response = new \League\CLImate\CLImate;
 	$accessTokenSecret = "1UGNYBESwuTHxeLgCVU8QAqdWxLpYLLqRHO2EQZuIAPUK" ;
 
 
-	connection =  new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
+	$connection =  new TwitterOAuth($consumerKey, $consumerSecret, $accessToken, $accessTokenSecret);
 
 	putenv('GOOGLE_APPLICATION_CREDENTIALS=' . __DIR__ . '/client_secret.json');
 	$client = new Google_Client;
@@ -34,7 +34,7 @@ $response = new \League\CLImate\CLImate;
 	
 
 	
-	echo "Enter the hashtag below without the # sign :\n";
+		echo "Enter the hashtag below without the # sign :\n";
 	$var = fread(STDIN, 80); // Read up to 80 characters or a newline
 	$hashtag = "%23". $var;
 
@@ -47,30 +47,39 @@ $response = new \League\CLImate\CLImate;
 
 	$worksheets = $spreadsheet->getWorksheetFeed()->getEntries();
 
-	$worksheet = $worksheets[1];
+	$worksheet = $worksheets[0];
 	$listFeed = $worksheet->getListFeed();
 	$cellFeed = $worksheet->getCellFeed();
 	$cellFeed->editCell(1,1, "Name");
 	$cellFeed->editCell(1,2, "Followers");
 
-	$data = $connection->get("users/search", ["q" => $hashtag, "page" => 1]);
+	
+
+	$data = $connection->get("search/tweets", ["q" => $hashtag, "count" => 2]);
+	
+
+	$object = $data->statuses;
 
 	$items = array();
-
-	foreach ($data as $user)
+	
+	foreach ($object as $user)
 	{
-		
 		$listFeed->insert([
-	        'name' => $user->name,
-	        'followers'	=> $user->followers_count
+	        'name' => $user->user->name,
+	        'followers'	=> $user->user->followers_count
 	    ]);
 		$items[] = array(
-			'Name of Profile'	=>	$user->name,
-			'Numbers of Followers' => number_format($user->followers_count, 0)
-		);	
+			'Name of Profile'	=>	$user->user->name,
+			'Numbers of Followers' => number_format($user->user->followers_count, 0)
+		);
+		
+		
+
+		
 	} 
-	
+
 	$response->table($items);
+	
 
 ?>
 
