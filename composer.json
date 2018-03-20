@@ -3,10 +3,8 @@
 	"description": "Twitter bot",
 	"require": {
 		 "php": ">=7.0.0",
-		"abraham/twitteroauth": "^0.7.4",
 		"google/apiclient": "^2.0",
-		"asimlqt/php-google-spreadsheet-client": "3.0.*",
-		"league/climate": "^3.2"
+		"asimlqt/php-google-spreadsheet-client": "3.0.*"
 	}
 
 }
