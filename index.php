@@ -6,7 +6,7 @@ require_once('OauthPhirehose.php');
 use Google\Spreadsheet\DefaultServiceRequest;
 use Google\Spreadsheet\ServiceRequestFactory;
 
- class ScrapTweet extends OauthPhirehose
+class ScrapTweet extends OauthPhirehose
 {
   public function saveInPreadSheet($name, $followers)
   {
